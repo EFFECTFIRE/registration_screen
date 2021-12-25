@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:registration_screen/application/user_states.dart';
 
 class MainData {
@@ -53,6 +54,7 @@ class MainRepo {
   }
 
   Future<bool> logUpWithEmailAndPassword(String email, String password) async {
+    await Firebase.initializeApp();
     try {
       await firebaseInst.createUserWithEmailAndPassword(
           email: email, password: password);

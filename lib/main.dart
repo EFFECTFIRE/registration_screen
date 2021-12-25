@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:registration_screen/application/user_events.dart';
@@ -7,13 +8,19 @@ import 'application/user_bloc.dart';
 import 'application/user_states.dart';
 
 void main() {
-  MaterialApp(
-    title: "Registration",
-    supportedLocales: <Locale>[Locale('en', 'EN')],
-    home: BlocProvider(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) => BlocProvider(
         create: (context) => UserBloc(UserLogOutState()),
-        child: RegistrationScreen()),
-  );
+        child: MaterialApp(home: RegistrationScreen()),
+      ),
+    );
+  }
 }
 
 class RegistrationScreen extends StatelessWidget {
@@ -21,7 +28,6 @@ class RegistrationScreen extends StatelessWidget {
 
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-  GlobalKey _formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
