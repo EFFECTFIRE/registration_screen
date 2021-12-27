@@ -9,14 +9,14 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text("Flutter login demo"),
           centerTitle: true,
           actions: [
             TextButton(
-                onPressed: () => _userBloc.add(UserLogOutEvent()),
+                onPressed: () => BlocProvider.of<UserBloc>(context)
+                    .mapEventToState(UserLogOutEvent()),
                 child: Text("LogOut"))
           ],
         ),

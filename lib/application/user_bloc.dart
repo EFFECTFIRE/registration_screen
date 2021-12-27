@@ -7,6 +7,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc(UserState initialState) : super(initialState);
   final MainRepo repo = MainRepo();
 
+  @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is UserLogInEvent) {
       if (await repo.logInWithEmailAndPassword(event.email, event.password)) {

@@ -15,10 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Firebase.initializeApp(),
-      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) => BlocProvider(
-        create: (context) => UserBloc(UserLogOutState()),
-        child: MaterialApp(home: RegistrationScreen()),
-      ),
+      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) =>
+          BlocProvider<UserBloc>(
+              create: (context) => UserBloc(UserLogOutState()),
+              child: MaterialApp(
+                home: RegistrationScreen(),
+              )),
     );
   }
 }
@@ -31,7 +33,6 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("RegistrationScreen"),
@@ -52,10 +53,16 @@ class RegistrationScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _userBloc.add((UserLogInEvent(
-                    _emailTextController.text, _passwordTextController.text)));
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                BlocProvider.of<UserBloc>(context).mapEventToState(
+                    UserLogInEvent(_emailTextController.text,
+                        _passwordTextController.text));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider.value(
+                              value: BlocProvider.of<UserBloc>(context),
+                              child: WelcomeScreen(),
+                            )));
               },
               child: Text("Sign Up"),
             )
