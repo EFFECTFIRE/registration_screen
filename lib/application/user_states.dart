@@ -7,13 +7,23 @@ abstract class UserState {
 }
 
 class UserLogInState extends UserState {
-  String _email;
+  final String _email;
+  @override
   String get email => _email;
-  String _password;
+  final String _password;
+  @override
   String get password => _password;
   UserLogInState(this._email, this._password);
 }
 
 class UserLogOutState extends UserState {}
 
-class UserLogUpState extends UserState {}
+class UserLogUpState extends UserState {
+  final String _email;
+  @override
+  String get email => _email;
+  final String _password;
+  @override
+  String get password => _password;
+  UserLogUpState(this._email, this._password);
+}

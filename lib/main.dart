@@ -53,8 +53,8 @@ class RegistrationScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                BlocProvider.of<UserBloc>(context).mapEventToState(
-                    UserLogInEvent(_emailTextController.text,
+                BlocProvider.of<UserBloc>(context, listen: false).add(
+                    UserLogUpEvent(_emailTextController.text,
                         _passwordTextController.text));
                 Navigator.push(
                     context,

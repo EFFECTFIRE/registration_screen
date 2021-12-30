@@ -1,14 +1,16 @@
-import 'package:registration_screen/auth/value_objects.dart';
-
 abstract class UserEvent {
   String? get email => null;
   String? get password => null;
 }
 
 class UserLogInEvent extends UserEvent {
-  String _email;
+  @override
+  final String _email;
+  @override
   String get email => _email;
-  String _password;
+
+  final String _password;
+  @override
   String get password => _password;
 
   UserLogInEvent(this._email, this._password);
@@ -17,9 +19,11 @@ class UserLogInEvent extends UserEvent {
 class UserLogOutEvent extends UserEvent {}
 
 class UserLogUpEvent extends UserEvent {
-  String _email;
+  final String _email;
+  @override
   String get email => _email;
-  String _password;
+  final String _password;
+  @override
   String get password => _password;
 
   UserLogUpEvent(this._email, this._password);
