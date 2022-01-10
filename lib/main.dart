@@ -15,12 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Firebase.initializeApp(),
-      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) =>
-          BlocProvider<UserBloc>(
-              create: (context) => UserBloc(UserLogOutState()),
-              child: MaterialApp(
-                home: RegistrationScreen(),
-              )),
+      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) => BlocProvider(
+          create: (context) => UserBloc(UserLogOutState()),
+          child: MaterialApp(home: RegistrationScreen())),
     );
   }
 }

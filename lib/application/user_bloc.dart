@@ -6,27 +6,47 @@ import 'package:registration_screen/domain/data_model.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final MainRepo repo = MainRepo();
 
-  UserBloc(UserState initialState) : super(UserLogOutState());
-
-  @override
-  Stream<UserState> mapEventToState(UserEvent event) async* {
-    try {
-      if (event is UserLogInEvent) {
+  UserBloc(UserState initialState) : super(initialState) {
+    on<UserLogInEvent>((event, emit) async {
+      try {
         if (await repo.logInWithEmailAndPassword(event.email, event.password)) {
-          yield UserLogInState(event.email, event.password);
-        } else if (event is UserLogUpEvent) {
-          if (await repo.logUpWithEmailAndPassword(
-              event.email, event.password)) {
-            yield UserLogUpState(repo.data.email, repo.data.uid);
-          }
-        } else if (event is UserLogOutEvent) {
-          if (await repo.logOut()) {
-            yield UserLogOutState();
-          }
+          emit(UserLogInState(event.email, event.password));
         }
-      }
-    } on Exception catch (e) {
-      yield UserLogOutState();
-    }
+      } catch (e) {}
+    });
+    on<UserLogUpEvent>((event, emit) async {
+      try {
+        await repo.logUpWithEmailAndPassword(event.email, event.password);
+        emit(UserLogUpState(event.email, event.password));
+      } catch (e) {}
+    });
+    on<UserLogOutEvent>((event, emit) async {
+      try {
+        await repo.logOut();
+        emit(UserLogOutState());
+      } catch (e) {}
+    });
   }
+
+  // @override
+  // Stream<UserState> mapEventToState(UserEvent event) async* {
+  //   try {
+  //     if (event is UserLogInEvent) {
+  //       if (await repo.logInWithEmailAndPassword(event.email, event.password)) {
+  //         yield UserLogInState(event.email, event.password);
+  //       } else if (event is UserLogUpEvent) {
+  //         if (await repo.logUpWithEmailAndPassword(
+  //             event.email, event.password)) {
+  //           yield UserLogUpState(repo.data.email, repo.data.uid);
+  //         }
+  //       } else if (event is UserLogOutEvent) {
+  //         if (await repo.logOut()) {
+  //           yield UserLogOutState();
+  //         }
+  //       }
+  //     }
+  //   } on Exception catch (e) {
+  //     yield UserLogOutState();
+  //   }
+  // }
 }

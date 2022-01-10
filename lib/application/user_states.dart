@@ -1,6 +1,3 @@
-import 'package:registration_screen/auth/value_objects.dart';
-import 'package:registration_screen/domain/data_model.dart';
-
 abstract class UserState {
   String? get email => null;
   String? get password => null;
