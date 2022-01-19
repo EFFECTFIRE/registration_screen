@@ -24,3 +24,8 @@ class UserLogUpState extends UserState {
   String get password => _password;
   UserLogUpState(this._email, this._password);
 }
+
+class UserLogErrorState extends UserState {
+  late String errorCode;
+  UserLogErrorState(this.errorCode);
+}

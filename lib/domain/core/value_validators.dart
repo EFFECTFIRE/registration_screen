@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:registration_screen/failures.dart';
+import 'package:registration_screen/domain/core/failures.dart';
 
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   const emailRegex =
@@ -16,5 +16,13 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
     return right(input);
   } else {
     return left(ValueFailure.shortPassword(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validateSingleLine(String input) {
+  if (input.contains('\n')) {
+    return left(ValueFailure.multiline(failedValue: input));
+  } else {
+    return right(input);
   }
 }

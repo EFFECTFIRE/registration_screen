@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:registration_screen/application/user_events.dart';
 import 'package:registration_screen/application/user_states.dart';
@@ -12,19 +13,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (await repo.logInWithEmailAndPassword(event.email, event.password)) {
           emit(UserLogInState(event.email, event.password));
         }
-      } catch (e) {}
+      } on FirebaseAuthException catch (e) {
+        emit(UserLogErrorState(e.code));
+      }
     });
     on<UserLogUpEvent>((event, emit) async {
       try {
         await repo.logUpWithEmailAndPassword(event.email, event.password);
         emit(UserLogUpState(event.email, event.password));
-      } catch (e) {}
+      } on FirebaseAuthException catch (e) {
+        emit(UserLogErrorState(e.code));
+      }
     });
     on<UserLogOutEvent>((event, emit) async {
       try {
         await repo.logOut();
         emit(UserLogOutState());
-      } catch (e) {}
+      } on FirebaseAuthException catch (e) {
+        emit(UserLogErrorState(e.code));
+      }
     });
   }
 

@@ -11,4 +11,7 @@ class ValueFailure<T> with _$ValueFailure<T> {
   const factory ValueFailure.shortPassword({
     required T failedValue,
   }) = ShortPassword<T>;
+  const factory ValueFailure.multiline({
+    required T failedValue,
+  }) = Multiline<T>;
 }

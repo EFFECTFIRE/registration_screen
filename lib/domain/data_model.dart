@@ -8,10 +8,8 @@ class MainData {
   String get email => _email;
   late String _uid;
   String get uid => _uid;
-  UserState _authState = UserLogOutState();
 
   void setState(UserState newState, {String uid = '', String email = ''}) {
-    _authState = newState;
     _uid = uid;
     _email = email;
   }
@@ -39,7 +37,7 @@ class MainRepo {
         case "invalid-email":
           return false;
         default:
-          return false;
+          return true;
       }
     }
 
